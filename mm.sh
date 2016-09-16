@@ -127,13 +127,16 @@ parse_args()
 		| update_extended_status )
 		  $1
 		  ;;
-
-		-h | --help | --usage )
-		  exit 0
-		  ;;
 		*)
-		  echo "$0: error - unrecognized option \""${1}"\""
-		  exit 1
+		  echo "usage: ${0} [-h] [discover_instances] [discover_replicas] [update_alive_instances] [update_replication_status] [update_extended_status]
+		  
+optional arguments:
+  -h, --help --usage show this help message and exit
+  discover_instances return a list of mysqld instances in zabbix discovery format
+  discover_replicas return a list of all mysqld instances replications in zabbix discovery format
+  update_alive_instances send list of mysqld instances statuses to zabbix
+  update_replication_status send list of mysqld instances replicas statuses to zabbix
+  update_extended_status send output of 'show GLOBAL status' of each mysqld instance to zabbix"
 		  ;;
 	esac
 }
