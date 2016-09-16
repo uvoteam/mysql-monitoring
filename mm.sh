@@ -50,7 +50,7 @@ update_alive_instances() {
 
 	for socket in $(get_mysqld_sockets); do
 		check_alive ${socket}
-		instance=$(echo $socket | cut -d'/' -f5 | grep -Eo 'mysql[-a-z]+')
+		instance=$(echo $socket | cut -d'/' -f5 | grep -Eo 'mysql([-a-z]+)?')
 		echo "${hostname} mm.instance.alive[${instance}] ${timestamp} $socket_alive" >> /tmp/mm.alive_instances.dat~
 	done
 
@@ -61,13 +61,13 @@ update_alive_instances() {
 
 discover_instances() {
 	get_mysqld_sockets \
-	  | cut -d'/' -f5 | grep -Eo 'mysql[-a-z]+' \
+	  | cut -d'/' -f5 | grep -Eo 'mysql([-a-z]+)?' \
 	  | format_data_out '#INSTANCE'
 }
 
 discover_replicas() {
 	for socket in $(get_mysqld_sockets) ; do
-		instance=$(echo $socket | cut -d'/' -f5 | grep -Eo 'mysql[-a-z]+')
+		instance=$(echo $socket | cut -d'/' -f5 | grep -Eo 'mysql([-a-z]+)?')
 		replicas=$(get_slave_data ${socket} Connection_name)
 		for replica in ${replicas:-main}; do
 			echo "${instance}"_"${replica}";
