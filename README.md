@@ -16,6 +16,10 @@ Please, ensure that you are using mysqld that supports multi-source replication,
 GRANT PROCESS, REPLICATION CLIENT ON *.* TO ‘zabbix’@’localhost’
 ```
 - Put mm.sh into /etc/zabbix folder
+- Run 
+```
+chmod +x /etc/zabbix/mm.sh
+```
 - Put mm.conf into /etc/zabbix/zabbix_agentd.conf.d/
 - Import template to zabbix - mm.xml
 - Apply “Template App Mysql Monitoring” template to host
