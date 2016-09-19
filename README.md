@@ -4,6 +4,7 @@
 
 Yet another module for mysql monitoring
 Supports multiple instances and multi-master replication with low-level discovery
+Please, ensure that you are using mysqld that supports multi-source replication, e.g. mysql 5.7 or mariadb 10+
 
 ## Requirements
 
