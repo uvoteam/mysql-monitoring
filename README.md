@@ -20,6 +20,7 @@ GRANT PROCESS, REPLICATION CLIENT ON *.* TO ‘zabbix’@’localhost’
 ```
 chmod +x /etc/zabbix/mm.sh
 ```
+- Put mm.items into /etc/zabbix/
 - Put mm.conf into /etc/zabbix/zabbix_agentd.conf.d/
 - Import template to zabbix - mm.xml
 - Apply “Template App Mysql Monitoring” template to host
