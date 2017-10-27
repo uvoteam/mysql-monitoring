@@ -50,7 +50,7 @@ update_alive_instances() {
 
 	for socket in $(get_mysqld_sockets); do
 		check_alive ${socket}
-		instance=$(echo $socket | cut -d'/' -f5 | grep -Eo 'mysql([-a-z]+)?')
+		instance=$(echo $socket | rev | cut -d'/' -f1 | rev | grep -Eo 'mysql([-a-z]+)?')
 		echo "${hostname} mm.instance.alive[${instance}] ${timestamp} $socket_alive" >> /tmp/mm.alive_instances.dat~
 	done
 
@@ -61,13 +61,13 @@ update_alive_instances() {
 
 discover_instances() {
 	get_mysqld_sockets \
-	  | cut -d'/' -f5 | grep -Eo 'mysql([-a-z]+)?' \
+	  | rev | cut -d'/' -f1 | rev | grep -Eo 'mysql([-a-z]+)?' \
 	  | format_data_out '#INSTANCE'
 }
 
 discover_replicas() {
 	for socket in $(get_mysqld_sockets) ; do
-		instance=$(echo $socket | cut -d'/' -f5 | grep -Eo 'mysql([-a-z]+)?')
+		instance=$(echo $socket | rev | cut -d'/' -f1 | rev | grep -Eo 'mysql([-a-z]+)?')
 		replicas=$(get_slave_data ${socket} Connection_name)
 		for replica in ${replicas:-main}; do
 			echo "${instance}"_"${replica}";
@@ -82,7 +82,7 @@ update_extended_status() {
 	for socket in $(get_mysqld_sockets)
 	do
 		check_alive ${socket}
-		instance=$(echo $socket | cut -d'/' -f5 | grep -Eo 'mysql([-a-z]+)?')
+		instance=$(echo $socket | rev | cut -d'/' -f1 | rev | grep -Eo 'mysql[-a-z]+')
 		mysql --defaults-extra-file=/etc/zabbix/.my.cnf -S ${socket} -e 'show GLOBAL status' \
 			| tail -n+2 \
 			| awk "{if (\$2 != \"\") print \"${hostname} mm.mysql.\" \$1 \"[${instance}]\"\" ${timestamp} \" \$2}" \
@@ -100,7 +100,7 @@ update_replication_status() {
 
 	for socket in $(get_mysqld_sockets)
 	do
-		instance=$(echo $socket | cut -d'/' -f5 | grep -Eo 'mysql([-a-z]+)?')
+		instance=$(echo $socket | rev | cut -d'/' -f1 | rev | grep -Eo 'mysql[-a-z]+')
 		replicas=$(get_slave_data ${socket} Connection_name)
 		for replica in ${replicas:-main}
 		do
