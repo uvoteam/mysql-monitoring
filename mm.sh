@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-hostname=$(hostname -f)
+hostname=$(grep -i "Hostname=" /etc/zabbix/zabbix_agentd.conf | sed 's/Hostname=//g')
 
 get_mysqld_sockets() {
 	ps uaxwww | grep -E 'mysqld.+--socket' | grep -Eo '[\/a-z-]+\.sock+'
