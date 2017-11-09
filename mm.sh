@@ -3,7 +3,7 @@
 hostname=$(grep -i "Hostname=" /etc/zabbix/zabbix_agentd.conf | sed 's/Hostname=//g')
 
 get_mysqld_sockets() {
-	ps uaxwww | grep -E 'mysqld.+--socket' | grep -Eo '[\/a-z-]+\.sock+'
+	ss -xl 2>/dev/null | awk '/mysql(.*)?\.sock/ && !/handler-socket/ { print $5 }'
 }
 
 check_alive() {
