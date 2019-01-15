@@ -13,7 +13,7 @@ Please, ensure that you are using mysqld that supports multi-source replication,
 ## Installing
 - Create user for monitoring, e.g.
 ```
-GRANT PROCESS, REPLICATION CLIENT ON *.* TO ‘zabbix’@’localhost’
+GRANT PROCESS, REPLICATION CLIENT ON *.* TO `zabbix`@`localhost`
 ```
 - Put mm.sh into /etc/zabbix folder
 - Run 
